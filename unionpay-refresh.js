@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         银联刷新
 // @namespace    https://greasyfork.org/en/users/22079-hntee
-// @version      0.1
+// @version      0.2
 // @description  银联刷新按钮
 // @author       You
 // @match        https://cashier.95516.com/b2c/showCard.action?*
@@ -11,9 +11,11 @@
 (function() {
     'use strict';
 
+
+
     function refreshCard() {
         var endNum = $('#select_endNum').val();
-        if (endNum == "") {
+        if (endNum === "") {
             var selectedText = $('#cardPay > div.listrow.cardrow > div.list_right > div.cardinfo > div.card_num > div.card_left > em').text();
             endNum = selectedText.substring(8,12);
         }
@@ -28,8 +30,7 @@
     function validate() {
         var pagePrice = $('#order_upoint > div.order_u_pay.dn > span').text();
         var expectPrice = $("#expect_price").val();
-        var text = pagePrice == expectPrice ? "正确" : "错误";
-        $('#validation').val(text);
+        return pagePrice === expectPrice;
     }
 
     function getPagePrice() {
@@ -40,19 +41,52 @@
     }
 
     function initPage() {
+        $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">刷新时间：</div><div class="list_right"> <input name="refresh_minute" id="refresh_minute" value="59">分<input name="refresh_second" id="refresh_second" value="56">秒 </div><div class="clear"></div></div><br/>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">页面当前金额：</div><div class="list_right"> <span id="current_price"></span><div class="clear"></div></div><br/>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">正确金额：</div><div class="list_right"> <input name="expect_price" id="expect_price"> </div><div class="clear"></div></div>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">选择卡的尾号：</div><div class="list_right"> <input name="select_endNum" id="select_endNum"> </div><div class="clear"></div></div>');
-        $('#btnCardPay').after('<input class="btn_blue139p CardDefault" id="validation" type="button" value="">');
-        $('#btnCardPay').after('<input class="btn_blue139p CardDefault" id="refresh" type="button" value="刷新">');
+        $('#btnCardPay').after('<input class="btn_blue139p CardDefault" id="init" type="button" value="启动">');
+        getPagePrice();
+    }
+
+    function initCountDown() {
+        $("div.icpay_tab").parent().append('<div class="pay_tab" id="show"></div>');
+        var loop = window.setInterval(main, 1000);
+
+        function main() {
+            var now = new Date();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            document.all.show.innerHTML = "" + minutes + ":" + seconds + "";
+            getPagePrice();
+            var m = $("#refresh_minute").val();
+            var s = $("#refresh_second").val();
+            if (minutes == m) {
+                if (seconds == s) {
+                    console.log(new Date() + "time right");
+                    window.clearInterval(loop);
+                    var refresh = window.setInterval(function() {
+                        refreshCard();
+                        console.log(new Date() + "refresh");
+                        window.setTimeout(function() {
+                            if (validate()) {
+                                window.clearInterval(refresh);
+                                console.log(new Date() + " - submit");
+                                $("form#cardPay").submit();
+                            }
+                        }, 500);
+                    }, 1300);
+                }
+            }
+        }
     }
 
     initPage();
-    $('#refresh').click(function() {
-        refreshCard();
+    $('#init').click(function() {
         getPagePrice();
-        validate();
+        initCountDown();
     });
+
 
 
 
