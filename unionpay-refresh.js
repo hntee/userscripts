@@ -39,7 +39,7 @@
     }
 
     function initPage() {
-        $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">刷新时间：</div><div class="list_right"> <input name="refresh_minute" id="refresh_minute" value="59">分<input name="refresh_second" id="refresh_second" value="59">秒 </div><div class="clear"></div></div><br/>');
+        $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">刷新时间：</div><div class="list_right"> <input name="refresh_minute" id="refresh_minute" value="59">分<input name="refresh_second" id="refresh_second" value="58">秒 </div><div class="clear"></div></div><br/>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">页面当前金额：</div><div class="list_right"> <span id="current_price"></span><div class="clear"></div></div><br/>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">正确金额：</div><div class="list_right"> <input name="expect_price" id="expect_price"> </div><div class="clear"></div></div>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">选择卡的尾号：</div><div class="list_right"> <input name="select_endNum" id="select_endNum"> <a href="javascript:0;" class="select_refresh">刷新</a></div><div class="clear"></div></div>');
