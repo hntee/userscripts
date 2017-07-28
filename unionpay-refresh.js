@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         银联刷新
 // @namespace    https://greasyfork.org/en/users/22079-hntee
-// @version      0.4
+// @version      0.4.1
 // @description  银联刷新按钮
 // @author       You
 // @match        https://cashier.95516.com/b2c/showCard.action?*
