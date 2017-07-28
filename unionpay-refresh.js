@@ -57,8 +57,8 @@
         $('#init').after('<input class="btn_blue139p CardDefault" id="stop" type="button" value="停止">');
         var loop = window.setInterval(main, 1000);
 
-        var refreshInterval = 700;
-        var checkPriceInterval = 200;
+        var refreshInterval = 1000;
+        var checkPriceInterval = 500;
 
         var refreshCount = 0;
         function main() {
