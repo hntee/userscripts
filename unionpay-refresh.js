@@ -53,7 +53,7 @@
     function initCountDown() {
         $("#show").remove();
         $("#stop").remove();
-        $("div.icpay_tab").parent().append('<div class="pay_tab" id="show"></div>');
+        $("div.pay_tab").parent().append('<div class="pay_tab" id="show"></div>');
         $('#init').after('<input class="btn_blue139p CardDefault" id="stop" type="button" value="停止">');
         var loop = window.setInterval(main, 1000);
 
