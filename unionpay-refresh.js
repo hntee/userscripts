@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         银联刷新
 // @namespace    https://greasyfork.org/en/users/22079-hntee
-// @version      0.4.2
+// @version      0.5
 // @description  银联刷新按钮
 // @author       You
 // @match        https://cashier.95516.com/b2c/showCard.action?*
@@ -39,7 +39,8 @@
     }
 
     function initPage() {
-        $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">刷新时间：</div><div class="list_right"> <input name="refresh_minute" id="refresh_minute" value="59">分<input name="refresh_second" id="refresh_second" value="58">秒 </div><div class="clear"></div></div><br/>');
+        $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">间隔：</div><div class="list_right"> <input name="refresh_card_interval" id="refresh_card_interval" value="500">卡刷新间隔(ms)<input name="check_price_interval" id="check_price_interval" value="200">检查价格间隔(ms)</div><div class="clear"></div></div>');
+        $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">开始刷新时间：</div><div class="list_right"> <input name="refresh_minute" id="refresh_minute" value="59">分<input name="refresh_second" id="refresh_second" value="58">秒 </div><div class="clear"></div></div>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">页面当前金额：</div><div class="list_right"> <span id="current_price"></span><div class="clear"></div></div><br/>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">正确金额：</div><div class="list_right"> <input name="expect_price" id="expect_price"> </div><div class="clear"></div></div>');
         $('#cardPay > div.listrow.CardMobileShow').after('<div class="listrow"> <div class="list_left">选择卡的尾号：</div><div class="list_right"> <input name="select_endNum" id="select_endNum"> <a href="javascript:0;" class="select_refresh">刷新</a></div><div class="clear"></div></div>');
@@ -57,8 +58,8 @@
         $('#init').after('<input class="btn_blue139p CardDefault" id="stop" type="button" value="停止">');
         var loop = window.setInterval(main, 1000);
 
-        var refreshInterval = 1000;
-        var checkPriceInterval = 500;
+        var refreshInterval = $("#refresh_card_interval").val();
+        var checkPriceInterval = $("#check_price_interval").val()
 
         var refreshCount = 0;
         function main() {
